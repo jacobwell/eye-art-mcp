@@ -67,3 +67,5 @@ command, review the generated tool schemas, and publish from a repository the
 publisher controls. Do not hand-maintain a second copy of the live tool schema.
 
 For clients that support `llms-install.md`, see [`llms-install.md`](./llms-install.md).
+
+The marketplace icon is [`icon.png`](./icon.png), a square 400×400 PNG.
