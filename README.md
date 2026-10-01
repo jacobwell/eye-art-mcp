@@ -69,3 +69,5 @@ publisher controls. Do not hand-maintain a second copy of the live tool schema.
 For clients that support `llms-install.md`, see [`llms-install.md`](./llms-install.md).
 
 The marketplace icon is [`icon.png`](./icon.png), a square 400×400 PNG.
+[`server.json`](./server.json) contains the endpoint-only Official MCP Registry
+manifest for this dedicated package repository.

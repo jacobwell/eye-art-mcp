@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.jacobwell/eye-art",
+  "title": "Eye.Art Polyphemus",
+  "description": "No-key MCP for images, edits, webpage-matched visuals, SVG, prompt ideas, and motion.",
+  "version": "1.0.0",
+  "websiteUrl": "https://eye.art",
+  "repository": {
+    "url": "https://github.com/jacobwell/eye-art-mcp",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://eye.art/api/eye-mcp"
+    }
+  ]
+}
