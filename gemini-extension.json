@@ -1,0 +1,13 @@
+{
+  "name": "eye-art-polyphemus",
+  "version": "1.0.0",
+  "description": "Create and edit images, artist-guided art, site-matched visuals, SVG, and motion through Eye.Art's free hosted MCP.",
+  "repository": "https://github.com/jacobwell/eye-art-mcp",
+  "mcpServers": {
+    "eye-art": {
+      "httpUrl": "https://eye.art/api/eye-mcp",
+      "timeout": 60000
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}
