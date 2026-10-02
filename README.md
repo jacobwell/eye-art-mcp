@@ -1,15 +1,13 @@
 # Eye.Art Polyphemus MCP connector
 
-Polyphemus is Eye.Art's no-key, hosted image-making MCP. Connect to the remote
-server; there is no local service to install and this package does not contain
-the private workflow implementation.
+Eye.Art Polyphemus is one conversational image-making MCP endpoint. It routes image creation, focused edits, artist-led directions, page-matched visuals from code, editable SVG, prompt ideas, and supported motion through a private workflow layer. This repository contains connection documentation only; it does not include the hosted workflow implementation.
 
 ## Connect
 
 - Transport: Streamable HTTP
 - MCP URL: `https://eye.art/api/eye-mcp`
-- Authentication: none
-- Website and guide: <https://eye.art/polyphemus/api>
+- Authentication: none; do not send an authorization header or API key
+- Full API guide: <https://eye.art/polyphemus/api>
 
 Example generic client configuration:
 
@@ -23,51 +21,37 @@ Example generic client configuration:
 }
 ```
 
-Use your client's remote MCP / Streamable HTTP option if it does not accept
-this JSON format directly. Do not add an authorization header or place an API
-key in client configuration.
+Use your client's remote MCP or Streamable HTTP setup if it does not accept this JSON format directly.
 
 ## What it can do
 
-- Make artist-guided images, compact art, webpage-matched visuals, and
-  supported motion requests through one image tool.
-- Continue a chat with its returned `conversationId`; attached references are
-  retained with that conversation for up to 30 days.
-- Edit a supplied PNG, JPEG, or WebP image while keeping the source image
-  attached to the request.
-- Return editable SVG source for icons, line art, diagrams, and flat scenes.
-- Suggest varied prompt directions and poll longer-running image jobs.
+- Create raster images with Polyphemus or an artist muse.
+- Edit a supplied PNG, JPEG, or WebP while carrying image and conversation context.
+- Match visuals to a page by supplying relevant HTML, CSS, JavaScript, JSX, TSX, or TypeScript.
+- Return editable SVG markup for icons, line art, diagrams, and flat scenes.
+- Offer three varied prompt ideas and route supported motion requests.
+- Continue conversations and poll asynchronous image jobs.
 
-The MCP exposes these tools: `eye_art_make_image`, `eye_art_make_svg`,
-`eye_art_edit_image`, `eye_art_prompt_ideas`, `eye_art_image_status`,
-`eye_art_list_conversations`, `eye_art_get_conversation`, and
-`eye_art_delete_conversation`. Read the linked API guide for arguments,
-reference formats, examples, and limitations.
+## Available tools
 
-## Limits and privacy
+- `eye_art_make_image` — image, artist-led, page-match, small-art, and supported motion requests.
+- `eye_art_edit_image` — focused edits to an attached source image.
+- `eye_art_make_svg` — editable SVG source; generation is synchronous.
+- `eye_art_prompt_ideas` — three varied prompt directions.
+- `eye_art_image_status` — poll an image or edit job until it completes or fails.
+- `eye_art_create_session` — create a private anonymous session for saved-chat management.
+- `eye_art_list_conversations` — list conversations for a session.
+- `eye_art_get_conversation` — read a conversation transcript.
+- `eye_art_delete_conversation` — delete a conversation and its stored references.
 
-Eye.Art is free to try without a key. Anonymous image generations are limited
-to 20 per hour per caller network identity. Image prompts, references, outputs,
-and conversation data are retained for up to 30 days for continuity and
-service operations, then expire under the current retention policy. Do not
-send private or sensitive source material unless you intend it to be processed
-by the hosted service.
+## Keep chat context
 
-Artist names describe visual guidance only. Eye.Art is not affiliated with or
-endorsed by the named artists or their estates. This is a hosted service; its
-workflow source and provider integrations are not included in this connector
-package.
+Pass the returned `conversationId` on follow-up image or edit calls to preserve the chat and its saved image references. To manage saved chats, first call `eye_art_create_session`, then pass its returned `sessionId` to the list/get/delete tools. Treat `sessionId` as a private anonymous capability; do not publish or share it. Attach a new reference when you want to change the active source image.
 
-## Publisher notes
+Image and edit calls may return asynchronous jobs. Poll each returned job with `eye_art_image_status`; some staged workflows may take around ten minutes. SVG generation returns source synchronously.
 
-This directory is intentionally endpoint-only. For a LobeHub marketplace
-plugin, generate the marketplace manifest against the live server with the
-official `lhm plugin init --url https://eye.art/api/eye-mcp --dir <output>`
-command, review the generated tool schemas, and publish from a repository the
-publisher controls. Do not hand-maintain a second copy of the live tool schema.
+## References and limits
 
-For clients that support `llms-install.md`, see [`llms-install.md`](./llms-install.md).
+Send image references as PNG, JPEG, or WebP data URLs; Eye.Art does not fetch arbitrary image URLs. For page matching, include only the relevant HTML/CSS/code in `pageReferences`. MCP request bodies are limited to 12 MB; each reference image is limited to 2 MB and references together to 6 MB. Anonymous image generation is limited to 20 requests per hour per caller network identity.
 
-The marketplace icon is [`icon.png`](./icon.png), a square 400×400 PNG.
-[`server.json`](./server.json) contains the endpoint-only Official MCP Registry
-manifest for this dedicated package repository.
+Prompts, references, outputs, and conversation data are retained for 30 days. Do not send sensitive source material unless you intend it to be processed by the hosted service. Artist names describe visual direction and do not imply endorsement or affiliation with the artist or estate.
